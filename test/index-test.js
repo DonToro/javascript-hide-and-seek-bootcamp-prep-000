@@ -1,44 +1,23 @@
-describe('index', () => {
-  describe('getFirstSelector(selector)', () => {
-    it('returns the first element that matches the selector', () => {
-      expect(getFirstSelector('div').id).toEqual('nested')
-      expect(getFirstSelector('.ranked-list')).toEqual(document.querySelector('.ranked-list'))
-    })
-  })
+function getFirstSelector(selector) {
+  var s = document.querySelector(selector)
+  return s
+}
 
-  describe('nestedTarget()', () => {
-    it('pulls a .target out of #nested', () => {
-      expect(nestedTarget()).toEqual(document.querySelector('#nested .target'))
-    })
-  })
+function nestedTarget() {
+  return document.querySelector('#nested .target')
+}
 
-  describe('deepestChild()', () => {
-    it('returns the most deeply nested child in #grand-node', () => {
-      console.log(deepestChild().innerHTML)
-      expect(deepestChild()).toBe(document.querySelector('#grand-node div div div div'))
-    })
-  })
+function increaseRankBy(n) {
+  var elements = document.querySelectorAll('.ranked-list li')
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].textContent = n + parseInt(elements[i].textContent)
+  }
+}
 
-  describe('increaseRankBy(n)', () => {
-    it('increases ranks in .ranked-list by n', () => {
-      increaseRankBy(3)
-
-      const rankedLists = document.querySelectorAll('.ranked-list')
-      const firstList = rankedLists[0]
-      const secondList = rankedLists[1]
-
-      let children = firstList.children
-      let start = 1
-      for (let i = 0, l = children.length; i < l; i++) {
-        expect(parseInt(children[i].innerHTML)).toEqual(start + i + 3)
-      }
-
-      children = secondList.children
-      start = 12
-
-      for (let i = 0, l = children.length; i < l; i++) {
-        expect(parseInt(children[i].innerHTML)).toEqual(start - i + 3)
-      }
-    })
-  })
-})
+function deepestChild() {
+  var element = document.querySelector('div#grand-node')
+  while (element.children.length > 0) {
+    element = element.children[0] 
+  }
+  return element
+}
